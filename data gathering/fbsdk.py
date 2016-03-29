@@ -1,7 +1,8 @@
 import facebook
 import requests
 import atexit
-import thread
+from threading import Thread
+import time
 
 token = "CAACEdEose0cBAP1QUsW89LK4Jf3pS0o4cRY5WCQcQQu2puIULAkVrl4ZBUk2ifVsYfhyqjnEdsVihTjPnKsZBHYp3OutmfSdCzwrwFFxi4D82pDeDgfMCeHKjX56VpRKOWbJAzGS7azd2bTZCPJuTW2MqtPjSXGY0QEa8xxNnZAgCmrSOKlOdZAuZBRIRF5zlW3mrUqY7M1wZDZD"
 graph = facebook.GraphAPI(access_token=token)
@@ -19,10 +20,11 @@ def main():
     atexit.register(exit_handler)
 
     for candidate in listOfCandidates:
-        try:
-            thread.start_new_thread(output_file(candidate))
-        except:
-            print "Error occured: unable to start thread for "+candidate
+        t = Thread(target=output_file, args=(candidate,))
+        t.setDaemon(True)
+        t.start()
+
+    time.sleep(60)
 
 
 def exit_handler():
@@ -46,12 +48,12 @@ def output_post(post, candidate, f):
 
 def output_overview(candidates):
     f = open('results/overview.csv', 'w')
-    print >>f, 'id, username, likes, about, numOfPosts'
+    print >>f, 'id, username, likes, numOfPosts'
 
     for candidate in candidates:
         profile = graph.get_object(candidate)
         numOfPosts = postsRecorded[listOfCandidates.index(candidate)]
-        print >>f, str(profile['id'])+", "+str(profile['username'])+", "+str(profile['likes'])+", "+str(profile['about'])+", "+str(numOfPosts)
+        print >>f, str(profile['id'])+", "+str(profile['username'])+", "+str(profile['likes'])+", "+str(numOfPosts)
 
     f.close()
 
