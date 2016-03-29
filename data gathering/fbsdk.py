@@ -1,18 +1,32 @@
 import facebook
 import requests
 import atexit
+import thread
 
 token = "CAACEdEose0cBAHBYNFtQoNUdpiMAn8Bmp9JFZB2ltrVP2aU5nglVzXiV77OC7o1wfVU31QxIhEQxAQAHkJq0Q1ws7KOrCeluK84PZCTDi3n0iUGCDboHZBomIdbHb4NG0PxYGVB7hI7xZCleUqavMIhAbZBVkPgdpSd4Ga2jsvk3fN4QctqLVBVt01yYN1dX4ZAJDZCY5aDFwZDZD"
-listOfCandidates = ["berniesanders", "hillaryclinton", "JohnKasich", "DonaldTrump", "tedcruzpage"]
 graph = facebook.GraphAPI(access_token=token)
+
+listOfCandidates = ["berniesanders",
+                    "hillaryclinton",
+                    "JohnKasich",
+                    "DonaldTrump",
+                    "tedcruzpage"]
+
 
 def main():
     atexit.register(exit_handler)
-    output_file(listOfCandidates[0])
+
+    for candidate in listOfCandidates:
+        try:
+            thread.start_new_thread(output_file(candidate))
+        except:
+            print "Error occured: unable to start thread for "+candidate
+
 
 def exit_handler():
     output_overview(listOfCandidates)
     print 'The application was ended!'
+
 
 def output_post(post, candidate, f):
     id = post['id']
@@ -25,6 +39,7 @@ def output_post(post, candidate, f):
     postOutput = str(id)+", "+str(created_time)+", "+str(status_type)+", "+str(likes)+", "+str(shares)+", "+str(comments)
     print >>f, postOutput
     print("Post added for "+candidate+"!")
+
 
 def output_overview(candidates):
     f = open('results/overview.csv', 'w')
@@ -46,13 +61,12 @@ def output_file(candidate):
 
     while True:
         try:
-            [output_post(post=post, candidate=candidate, f=f) for post in posts['data']]
+            for post in posts['data']:
+                output_post(post=post, candidate=candidate, f=f)
             posts = requests.get(posts['paging']['next']).json()
         except KeyError:
-            # When there are no more pages (['paging']['next']), break from the
-            # loop and end the script.
+            # When there are no more pages
             break
-
     f.close()
 
 main()
