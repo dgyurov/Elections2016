@@ -3,8 +3,9 @@ import requests
 import atexit
 from threading import Thread
 import time
+import os.path
 
-token = "CAACEdEose0cBAP1QUsW89LK4Jf3pS0o4cRY5WCQcQQu2puIULAkVrl4ZBUk2ifVsYfhyqjnEdsVihTjPnKsZBHYp3OutmfSdCzwrwFFxi4D82pDeDgfMCeHKjX56VpRKOWbJAzGS7azd2bTZCPJuTW2MqtPjSXGY0QEa8xxNnZAgCmrSOKlOdZAuZBRIRF5zlW3mrUqY7M1wZDZD"
+token = "CAACEdEose0cBAJh8afXiQuy7nJBXpUJ5AyVAP2BX3flXUAQ58pfbqtvS7CYxZCZApf4ClzCaiNDp7NpupGFE92xcQTksZARxZB82lWWIMyZBwwbZA2jrp4oi3OQZBL9oQ9KljfTfoGrxq6Hs5oOw9EoGZAB9xqLPRBYV6SfPPYJxmWyQLB40hZCDzwWhCV2sJYtZAO19bXQOr0LwZDZD"
 graph = facebook.GraphAPI(access_token=token)
 
 listOfCandidates = ["berniesanders",
@@ -17,6 +18,7 @@ postsRecorded = [0, 0, 0, 0, 0]
 
 
 def main():
+
     atexit.register(exit_handler)
 
     for candidate in listOfCandidates:
@@ -47,7 +49,7 @@ def output_post(post, candidate, f):
 
 
 def output_overview(candidates):
-    f = open('results/overview.csv', 'w')
+    f = open(os.path.dirname(__file__)+'/../data/overview.csv', 'w')
     print >>f, 'id, username, likes, numOfPosts'
 
     for candidate in candidates:
@@ -59,7 +61,7 @@ def output_overview(candidates):
 
 
 def output_file(candidate):
-    f = open('results/'+candidate+'.csv', 'w')
+    f = open(os.path.dirname(__file__)+'/../data/'+candidate+'.csv', 'w')
     profile = graph.get_object(candidate)
     posts = graph.get_connections(profile['id'], 'posts')
 
@@ -75,4 +77,6 @@ def output_file(candidate):
             break
     f.close()
 
-main()
+if __name__ == '__main__':
+    # fbsdk.py executed as script
+    main()
