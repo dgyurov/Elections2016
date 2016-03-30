@@ -1,20 +1,15 @@
-import facebook
 import requests
 import atexit
-from threading import Thread
 import time
 import os.path
+import config
+import facebook
+from threading import Thread
 
-token = "CAACEdEose0cBAJh8afXiQuy7nJBXpUJ5AyVAP2BX3flXUAQ58pfbqtvS7CYxZCZApf4ClzCaiNDp7NpupGFE92xcQTksZARxZB82lWWIMyZBwwbZA2jrp4oi3OQZBL9oQ9KljfTfoGrxq6Hs5oOw9EoGZAB9xqLPRBYV6SfPPYJxmWyQLB40hZCDzwWhCV2sJYtZAO19bXQOr0LwZDZD"
+token = config.token
 graph = facebook.GraphAPI(access_token=token)
-
-listOfCandidates = ["berniesanders",
-                    "hillaryclinton",
-                    "JohnKasich",
-                    "DonaldTrump",
-                    "tedcruzpage"]
-
-postsRecorded = [0, 0, 0, 0, 0]
+listOfCandidates = config.listOfCandidates
+postsRecorded = []
 
 
 def main():
@@ -22,11 +17,14 @@ def main():
     atexit.register(exit_handler)
 
     for candidate in listOfCandidates:
+        postsRecorded.append(0)
         t = Thread(target=output_file, args=(candidate,))
         t.setDaemon(True)
         t.start()
+        print 'Started a thread for '+candidate
 
-    time.sleep(60)
+    # Timeout for auto-gathering
+    time.sleep(config.timeout)
 
 
 def exit_handler():
