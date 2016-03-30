@@ -1,7 +1,7 @@
 # Config file for the appwide variables
 
 # The FB access token, get one from https://developers.facebook.com/tools/explorer/
-token = "EAACEdEose0cBAAvr7HrqoLqOLvlF5nTZBIRpc6q72hgJMetY8WMATqN8xEolyt8W55BjA4B7oD9hmea0jM0XxdyHuWm2NOgiLn8aWiuFb2V0dmFB18lZAmbvcGkp7Y23QVCTyNe585N5Lr3ZAVDyAlswbOwyG94rauK1ETZCDgZDZD"
+token = "EAACEdEose0cBAAwzT63V2txBf8bZArQb6NaJnpVAQGrgmF6FtVEiaizVrhnhrA3oFbm0qBC0VksMdLy9ZCyeo2CGLUkU3crbYRVhYDq6DdJlE8HeoiWEZBslNNgQQW8Kk2ZAYqNo0UyKMToPJTnslMN7kEHjxjZACAKN2drZBqjgZDZD"
 
 # List of the FB usernames from which we will gather information
 listOfCandidates = [
@@ -16,4 +16,4 @@ listOfCandidates = [
 clearDataFolder = True
 
 # The time during which the program will gather posts from FB (in seconds)
-timeout = 60
+timeout = 120
