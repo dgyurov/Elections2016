@@ -37,9 +37,15 @@ def output_post(post, candidate, f):
     created_time = post['created_time']
     status_type = post['status_type']
     likes = requests.get("https://graph.facebook.com/v2.5/"+post['id']+"?fields=likes.limit(0).summary(true)&access_token="+token).json()['likes']['summary']['total_count']
-    shares = requests.get("https://graph.facebook.com/v2.5/"+post['id']+"?fields=shares&access_token="+token).json()['shares']['count']
-    comments = requests.get("https://graph.facebook.com/v2.5/"+post['id']+"?fields=comments.limit(0).summary(true)&access_token="+token).json()['comments']['summary']['total_count']
+    shares = requests.get("https://graph.facebook.com/v2.5/"+post['id']+"?fields=shares&access_token="+token).json()
 
+    # Check if shares exist at first place
+    if 'shares' not in shares:
+        shares = 'null'
+    else:
+        shares = shares['shares']['count']
+
+    comments = requests.get("https://graph.facebook.com/v2.5/"+post['id']+"?fields=comments.limit(0).summary(true)&access_token="+token).json()['comments']['summary']['total_count']
     postOutput = str(id)+", "+str(created_time)+", "+str(status_type)+", "+str(likes)+", "+str(shares)+", "+str(comments)
     print >>f, postOutput
     postsRecorded[listOfCandidates.index(candidate)] += 1
@@ -60,11 +66,11 @@ def output_overview(candidates):
 
 def output_file(candidate):
     f = open(os.path.dirname(__file__)+'/../data/'+candidate+'.csv', 'w')
+
     profile = graph.get_object(candidate)
     posts = graph.get_connections(profile['id'], 'posts')
 
     print >>f, 'id, created_time, status_type, likes, shares, comments'
-
     while True:
         try:
             for post in posts['data']:

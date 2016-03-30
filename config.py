@@ -1,14 +1,16 @@
 # Config file for the appwide variables
 
 # The FB access token, get one from https://developers.facebook.com/tools/explorer/
-token = "CAACEdEose0cBAJh8afXiQuy7nJBXpUJ5AyVAP2BX3flXUAQ58pfbqtvS7CYxZCZApf4ClzCaiNDp7NpupGFE92xcQTksZARxZB82lWWIMyZBwwbZA2jrp4oi3OQZBL9oQ9KljfTfoGrxq6Hs5oOw9EoGZAB9xqLPRBYV6SfPPYJxmWyQLB40hZCDzwWhCV2sJYtZAO19bXQOr0LwZDZD"
+token = "EAACEdEose0cBAAvr7HrqoLqOLvlF5nTZBIRpc6q72hgJMetY8WMATqN8xEolyt8W55BjA4B7oD9hmea0jM0XxdyHuWm2NOgiLn8aWiuFb2V0dmFB18lZAmbvcGkp7Y23QVCTyNe585N5Lr3ZAVDyAlswbOwyG94rauK1ETZCDgZDZD"
 
 # List of the FB usernames from which we will gather information
-listOfCandidates = ["berniesanders",
+listOfCandidates = [
+                    "berniesanders",
                     "hillaryclinton",
                     "JohnKasich",
                     "DonaldTrump",
-                    "tedcruzpage"]
+                    "tedcruzpage"
+                    ]
 
 # Should we delete the files in the Data folder before this iteration
 clearDataFolder = True
