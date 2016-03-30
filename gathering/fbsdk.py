@@ -13,15 +13,17 @@ postsRecorded = []
 
 
 def main():
-
+    print 'Gathering initiated:'
     atexit.register(exit_handler)
+
+    print 'The gathering will end in '+str(config.timeout)+' seconds...'
 
     for candidate in listOfCandidates:
         postsRecorded.append(0)
         t = Thread(target=output_file, args=(candidate,))
         t.setDaemon(True)
         t.start()
-        print 'Started a thread for '+candidate
+        print 'Started a gathering thread for '+candidate
 
     # Timeout for auto-gathering
     time.sleep(config.timeout)
@@ -35,21 +37,24 @@ def exit_handler():
 def output_post(post, candidate, f):
     id = post['id']
     created_time = post['created_time']
-    status_type = post['status_type']
-    likes = requests.get("https://graph.facebook.com/v2.5/"+post['id']+"?fields=likes.limit(0).summary(true)&access_token="+token).json()['likes']['summary']['total_count']
-    shares = requests.get("https://graph.facebook.com/v2.5/"+post['id']+"?fields=shares&access_token="+token).json()
+
+    if 'status_type' not in post:
+        status_type = 'null'
+    else:
+        status_type = post['status_type']
 
     # Check if shares exist at first place
-    if 'shares' not in shares:
+    if 'shares' not in post:
         shares = 'null'
     else:
-        shares = shares['shares']['count']
+        shares = post['shares']['count']
 
-    comments = requests.get("https://graph.facebook.com/v2.5/"+post['id']+"?fields=comments.limit(0).summary(true)&access_token="+token).json()['comments']['summary']['total_count']
+    likes = post['likes']['summary']['total_count']
+    comments = post['comments']['summary']['total_count']
+
     postOutput = str(id)+", "+str(created_time)+", "+str(status_type)+", "+str(likes)+", "+str(shares)+", "+str(comments)
     print >>f, postOutput
     postsRecorded[listOfCandidates.index(candidate)] += 1
-    print("Post added for "+candidate+"!")
 
 
 def output_overview(candidates):
@@ -68,7 +73,7 @@ def output_file(candidate):
     f = open(os.path.dirname(__file__)+'/../data/'+candidate+'.csv', 'w')
 
     profile = graph.get_object(candidate)
-    posts = graph.get_connections(profile['id'], 'posts')
+    posts = requests.get("https://graph.facebook.com/v2.5/"+profile['id']+"?fields=posts.limit(100){id,created_time,status_type,shares,likes.limit(0).summary(true),comments.limit(0).summary(true)}&access_token="+token).json()['posts']
 
     print >>f, 'id, created_time, status_type, likes, shares, comments'
     while True:
