@@ -31,7 +31,7 @@ def main():
 
 def exit_handler():
     output_overview(listOfCandidates)
-    print 'The application was ended!'
+    print 'The gathering has ended!'
 
 
 def output_post(post, candidate, f):

@@ -1,6 +1,6 @@
 # Config file for the appwide variables
 
-# The FB access token, get one from https://developers.facebook.com/tools/explorer/
+# The FB access token, get one from developers.facebook.com/tools/explorer/
 token = "EAACEdEose0cBABfJPqZCDHUQrR33q11mNLsC3eufHfUwjlqbka7d9TnGoVbRZCaKL88oQj1QjkL9ZCRN8eEZBDpRAWf3VMIi0XuPlkTVAUikouR4WnqulhSOIHEP0XieBFZCmcYGReYcHogrGk6JGRFYIsIZCGOfDl0Ire9YZCkrAZDZD"
 
 # List of the FB usernames from which we will gather information
@@ -12,32 +12,16 @@ listOfCandidates = [
                     "tedcruzpage"
                     ]
 
+# Supported extra fields:
+# "full_picture", "icon", "instagram_eligibility", "link", "message",
+# "name", "object_id", "picture", "status_type", "timeline_visibility",
+# "type", "updated_time", "full_picture", "icon", "story", "caption", "source"
+
 # List of the post fields used in the request to the facebook API
-# Supported ExtraFields:
-# "full_picture"
-# "icon"
-# "instagram_eligibility"
-# "link"
-# "message" Might have some parsing problems
-# "name"  Might have some parsing problems
-# "object_id"
-# "picture"
-# "status_type"
-# "timeline_visibility"
-# "type"
-# "updated_time"
-# "full_picture"
-# "icon"
-# "story"  Might have some parsing problems
-# "caption" Might have some parsing problems
-# "source"
-
-
-
-listOfExtraPostFields = ['caption','message','name']
+listOfExtraPostFields = []
 
 # Should we delete the files in the Data folder before this iteration
 clearDataFolder = True
 
 # The time during which the program will gather posts from FB (in seconds)
-timeout = 10
+timeout = 60
