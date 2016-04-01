@@ -19,7 +19,7 @@ listOfCandidates = [
 # "instagram_eligibility"
 # "link"
 # "message" Might have some parsing problems
-# "name"
+# "name"  Might have some parsing problems
 # "object_id"
 # "picture"
 # "status_type"
@@ -28,13 +28,13 @@ listOfCandidates = [
 # "updated_time"
 # "full_picture"
 # "icon"
-# "story"
-# "caption"
+# "story"  Might have some parsing problems
+# "caption" Might have some parsing problems
 # "source"
 
 
 
-listOfExtraPostFields = ['link','full_picture','icon']
+listOfExtraPostFields = ['caption','message','name']
 
 # Should we delete the files in the Data folder before this iteration
 clearDataFolder = True

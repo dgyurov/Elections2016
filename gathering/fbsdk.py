@@ -56,8 +56,12 @@ def output_post(post, candidate, f):
     else:
         postOutput = str(id)+", "+str(created_time)+", "+str(status_type)+", "
         for field in config.listOfExtraPostFields:
-            print "Detected additional filed: "+str(field)
-            postOutput += str(post[field])+","
+            if field not in post:
+                postOutput += "null,"
+            else:
+                fieldContent = post[field]
+                fieldContent = ''.join(ch for ch in fieldContent if ch.isalnum() or ch == ' ' or ch == '#' or ch=='?' or ch=='!' or ch=='.' or ch=='@' or ch=='$' or ch=='%')
+                postOutput += str(fieldContent)+","
         postOutput += str(likes)+", "+str(shares)+", "+str(comments)
 
     print >>f, postOutput
