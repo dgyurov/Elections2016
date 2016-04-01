@@ -51,8 +51,15 @@ def output_post(post, candidate, f):
 
     likes = post['likes']['summary']['total_count']
     comments = post['comments']['summary']['total_count']
+    if not config.listOfExtraPostFields:
+        postOutput = str(id)+", "+str(created_time)+", "+str(status_type)+", "+str(likes)+", "+str(shares)+", "+str(comments)
+    else:
+        postOutput = str(id)+", "+str(created_time)+", "+str(status_type)+", "
+        for field in config.listOfExtraPostFields:
+            print "Detected additional filed: "+str(field)
+            postOutput += str(post[field])+","
+        postOutput += str(likes)+", "+str(shares)+", "+str(comments)
 
-    postOutput = str(id)+", "+str(created_time)+", "+str(status_type)+", "+str(likes)+", "+str(shares)+", "+str(comments)
     print >>f, postOutput
     postsRecorded[listOfCandidates.index(candidate)] += 1
 
@@ -73,9 +80,22 @@ def output_file(candidate):
     f = open(os.path.dirname(__file__)+'/../data/'+candidate+'.csv', 'w')
 
     profile = graph.get_object(candidate)
-    posts = requests.get("https://graph.facebook.com/v2.5/"+profile['id']+"?fields=posts.limit(100){id,created_time,status_type,shares,likes.limit(0).summary(true),comments.limit(0).summary(true)}&access_token="+token).json()['posts']
 
-    print >>f, 'id, created_time, status_type, likes, shares, comments'
+    # Build the request
+    if not config.listOfExtraPostFields:
+        posts = requests.get("https://graph.facebook.com/v2.5/"+profile['id']+"?fields=posts.limit(100){id,created_time,status_type,shares,likes.limit(0).summary(true),comments.limit(0).summary(true)}&access_token="+token).json()['posts']
+    else:
+        extraFieldsUnited = ""
+        for field in config.listOfExtraPostFields:
+            extraFieldsUnited += field+','
+        posts = requests.get("https://graph.facebook.com/v2.5/"+profile['id']+"?fields=posts.limit(100){id,created_time,status_type,"+extraFieldsUnited+"shares,likes.limit(0).summary(true),comments.limit(0).summary(true)}&access_token="+token).json()['posts']
+
+    # Take care of the csv header
+    if not config.listOfExtraPostFields:
+        print >>f, 'id, created_time, status_type, likes, shares, comments'
+    else:
+        print >>f, 'id, created_time, status_type,'+extraFieldsUnited+' likes, shares, comments'
+
     while True:
         try:
             for post in posts['data']:
