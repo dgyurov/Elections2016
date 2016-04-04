@@ -16,3 +16,5 @@ The project is organized into three parts:
 - Data collection using the Facebook Graph API
 - Data analysis
 - Data visualisation
+
+#francescowazhere
