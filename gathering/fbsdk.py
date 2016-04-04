@@ -60,7 +60,7 @@ def output_post(post, candidate, f):
                 postOutput += "null,"
             else:
                 fieldContent = post[field]
-                fieldContent = ''.join(ch for ch in fieldContent if ch.isalnum() or ch == ' ' or ch == '#' or ch=='?' or ch=='!' or ch=='.' or ch=='@' or ch=='$' or ch=='%' or ch=='')
+                fieldContent = ''.join(ch for ch in fieldContent if ch.isalnum() or ch == ' ' or ch == '#' or ch=='?' or ch=='!' or ch=='.' or ch=='@' or ch=='$' or ch=='%' or ch=='' or ch=='/' or ch==':' or ch=='=')
                 postOutput += fieldContent.encode('utf-8')+","
         postOutput += str(likes)+", "+str(shares)+", "+str(comments)
 

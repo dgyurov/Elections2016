@@ -1,7 +1,7 @@
 # Config file for the appwide variables
 
 # The FB access token, get one from developers.facebook.com/tools/explorer/
-token = "EAACEdEose0cBABfJPqZCDHUQrR33q11mNLsC3eufHfUwjlqbka7d9TnGoVbRZCaKL88oQj1QjkL9ZCRN8eEZBDpRAWf3VMIi0XuPlkTVAUikouR4WnqulhSOIHEP0XieBFZCmcYGReYcHogrGk6JGRFYIsIZCGOfDl0Ire9YZCkrAZDZD"
+token = "CAACEdEose0cBADW2rWGGqdE0sRkczpYHHx8QskmTDlGKu9ga5u76QT3JHmdNRg9WqvOisje0BeqZA03ZBRJ78BeL7TjUyaVfBVbpaZAMrQzS0ZCPVKyGEZCBHvRhBsBvFWCoMfPQtMZBIvKB1wZCNXYvijEBCPBxadrcIOPCSCOvHaJ11kgYY8RDzImUO7fZA3oBLJyoHH0X4gZDZD"
 
 # List of the FB usernames from which we will gather information
 listOfCandidates = [
